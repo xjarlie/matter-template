@@ -22,7 +22,7 @@ class Character extends Entity {
     }
 
     tick() {
-
+        console.log(keyMap);
     }
 }
 
