@@ -1,8 +1,9 @@
-import './lib/matter';
-import { keyMap, keyMapper } from './lib/keyMap';
-import Entity from './Entity';
-import { tickCounter, ticks } from './lib/tickCounter';
-import { global } from './lib/global';
+import './lib/matter.js';
+import { keyMapper } from './lib/keyMap.js';
+import { tickCounter } from './lib/tickCounter.js';
+import { global } from './lib/global.js';
+import Character from './Character.js';
+import Platform from './Platform.js';
 
 function main() {
 
@@ -23,7 +24,7 @@ function main() {
         options: {
             width: 800,
             height: 640,
-            wireframes: false``
+            wireframes: false
         }
     });
 
@@ -37,12 +38,26 @@ function main() {
     // Ensure that the physics runs at a constant speed regardless of framerate
     runner.isFixed = false;
 
-    Runner.run(runner, engine);
+    Runner.run(runner, engine); 
 
     // Define global variables:
     global.bodies = []; // List of physics 'bodies' in the world
     global.entities = []; // List of entities in the world
- 
+    global.world = engine.world;
+
+    // Set function to run every game tick
+    Matter.Events.on(runner, 'tick', tickCounter);
+
+    // Check for keypresses and store them
+    window.addEventListener('keydown', e => keyMapper(e))
+    window.addEventListener('keyup', e => keyMapper(e))
+
+    // Add entities here
+    const player = new Character(50, 50, 50, 50);
+    player.add();
+
+    const ground = new Platform(100, 600, 400, 30);
+    ground.add();
 
 }
 window.onload = main;
