@@ -3,16 +3,12 @@ import { global } from "./lib/global.js";
 
 // The default template for any entity in the game
 class Entity {
-    constructor(posX, posY, sizeX, sizeY) {
+    constructor() {
         this.world = global.world;
         this.body = 0;
         this.group = 'default';
         this.key = crypto.randomUUID(); // Unique, randomised key
         this.static = false;
-        this.posX = posX || 50;
-        this.posY = posY || 50;
-        this.sizeX = sizeX || 100;
-        this.sizeY = sizeY || 100;
     }
 
     add() {
