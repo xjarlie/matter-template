@@ -16,8 +16,10 @@ class Platform extends Entity {
             },
             label: this.key
         });
-
         this.static = true;
+
+        this.group = 'platform'
+
     }
 }
 

@@ -23,8 +23,8 @@ function main() {
         element: document.body,
         engine: engine,
         options: {
-            width: 800,
-            height: 640,
+            width: 1000,
+            height: 700,
             wireframes: false
         }
     });
@@ -55,13 +55,27 @@ function main() {
 
     // Add entities here
     const player = new Character(50, 50, 50, 50);
-    
 
     const ground = new Platform(100, 600, 400, 30);
     ground.add();
 
-    const myplayer = new Alf()
+    const platform1 = new Platform(500, 500, 300, 30);
+    platform1.body.render.fillStyle = '#ff00f0';
+    platform1.add();
+
+    const trickPlatform = new Platform(600, 200, 200, 20);
+    trickPlatform.group = 'trick';
+    trickPlatform.add();
+
+    const myplayer = new Alf();
     myplayer.add();
+
+    // const pipe1 = new Pipe();
+    // pipe1.add();
+
+    // const pipe2 = new Pipe();
+    // Matter.Body.setPosition(pipe2.body, { x: pipe2.body.position.x, y: 600 })
+    // pipe2.add();
 
 }
 window.onload = main;
