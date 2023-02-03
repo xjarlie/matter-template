@@ -5,6 +5,7 @@ import { global } from './lib/global.js';
 import Character from './Character.js';
 import Platform from './Platform.js';
 import Alf from './Alf.js';
+import MovingPlatform from './MovingPlatform.js';
 
 function main() {
 
@@ -25,7 +26,8 @@ function main() {
         options: {
             width: 1000,
             height: 700,
-            wireframes: false
+            wireframes: false,
+            background: 'black'
         }
     });
 
@@ -45,6 +47,9 @@ function main() {
     global.bodies = []; // List of physics 'bodies' in the world
     global.entities = []; // List of entities in the world
     global.world = engine.world;
+    global.engine = engine;
+    global.render = render;
+    global.runner = runner;
 
     // Set function to run every game tick
     Matter.Events.on(runner, 'tick', tickCounter);
@@ -63,9 +68,23 @@ function main() {
     platform1.body.render.fillStyle = '#ff00f0';
     platform1.add();
 
-    const trickPlatform = new Platform(600, 200, 200, 20);
-    trickPlatform.group = 'trick';
-    trickPlatform.add();
+    // const trickPlatform = new Platform(600, 200, 200, 20);
+    // trickPlatform.group = 'trick';
+
+    // trickPlatform.tick = function() {
+    //     if (trickPlatform.body.position.x < 400) {
+    //         Matter.Body.setVelocity(trickPlatform.body, { x: 1, y: 0 })
+    //     } else {
+    //         Matter.Body.setVelocity(trickPlatform.body, { x: -1, y: 0 })
+    //     }
+    //     console.log(trickPlatform.body.position);
+    //     Matter.Body.setAngle(trickPlatform.body, 0);
+    // }
+    // trickPlatform.add();
+    // Matter.Body.setStatic(trickPlatform.body, false);
+
+    const movingPlatform = new MovingPlatform(600, 300, 200, 20);
+    movingPlatform.add();
 
     const myplayer = new Alf();
     myplayer.add();
@@ -79,3 +98,20 @@ function main() {
 
 }
 window.onload = main;
+
+function stop() {
+
+    const { Engine, Render, Runner, Composite, World } = Matter;
+
+    World.clear(global.world);
+    Engine.clear(global.engine);
+    Render.stop(global.render);
+    Runner.stop(global.runner);
+    global.render.canvas.remove();
+    global.render.canvas = null;
+    global.render.context = null;
+    global.render.textures = {};
+
+}
+
+export { stop, main };

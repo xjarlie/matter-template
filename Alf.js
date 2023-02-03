@@ -8,16 +8,16 @@ class Alf extends Entity {
     constructor() {
         super()
 
-        this.body = Matter.Bodies.rectangle(40, 60, 30, 30, {
+        this.body = Matter.Bodies.rectangle(40, 60, 32, 32, {
             collisionFilter: {
                 category: collisions.character, // The collision category this entity belongs to
                 mask: collisions.ground // The collision categories this entity collides with
             },
             render: {
                 sprite: {
-                    texture: 'itsame.jpg',
-                    xScale: 0.5,
-                    yScale: 0.5
+                    texture: 'New Piskel.png',
+                    xScale: 1,
+                    yScale: 1
                 }
             },
             label: this.key,
@@ -27,6 +27,7 @@ class Alf extends Entity {
     }
 
     tick() {
+
         if (keyMap['ArrowRight'] === true) {
 
             Matter.Body.applyForce(this.body, this.body.position, { x: 0.01, y: 0 })
