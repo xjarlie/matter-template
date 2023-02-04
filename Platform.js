@@ -12,7 +12,7 @@ class Platform extends Entity {
                 mask: collisions.character // The collision categories this entity collides with
             },
             render: {
-                fillStyle: '#ffffff'
+                fillStyle: '#aaaaaa'
             },
             label: this.key
         });

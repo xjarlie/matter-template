@@ -6,6 +6,7 @@ import Character from './Character.js';
 import Platform from './Platform.js';
 import Alf from './Alf.js';
 import MovingPlatform from './MovingPlatform.js';
+import PassiveEnemy from './PassiveEnemy.js';
 
 function main() {
 
@@ -16,6 +17,9 @@ function main() {
         gravity: {
             x: 0,
             y: 1
+        },
+        timing: {
+            timeScale: 1
         }
     });
 
@@ -24,10 +28,10 @@ function main() {
         element: document.body,
         engine: engine,
         options: {
-            width: 1000,
-            height: 700,
+            width: 1280,
+            height: 724,
             wireframes: false,
-            background: 'black'
+            background: '#021703'
         }
     });
 
@@ -36,12 +40,59 @@ function main() {
 
     // Start the renderer
     Render.run(render);
-    const runner = Runner.create();
+    // const runner = Runner.create();
 
-    // Ensure that the physics runs at a constant speed regardless of framerate
-    runner.isFixed = false;
+    // // Ensure that the physics runs at a constant speed regardless of framerate
+    // runner.isFixed = false;
 
-    Runner.run(runner, engine); 
+    // Runner.run(runner, engine);
+
+
+    let last_run = 0;
+    let last_delta = 0;
+
+    function get_delta_correction() {
+        let delta = 1000 / 60;//default used on first loop only
+        let correction = 1.0;//also default for first iterations
+        if (last_run == 0) {//first run -> no delta, no correction
+            const this_run = Date.now();
+            last_run = this_run;
+        }
+        else {
+            if (last_delta == 0) {//second run -> first delta but no correction yet
+                const this_run = Date.now();
+                delta = this_run - last_run;
+                if (delta > 100) {//avoids instabilities after pause (window in background) or with slow cpu
+                    delta = 100;
+                }
+                last_run = this_run;
+                last_delta = delta;
+            }
+            else {//run > 2 => delta + correction
+                const this_run = Date.now();
+                delta = this_run - last_run;
+                if (delta > 100) {//avoids instabilities after pause (window in background) or with slow cpu
+                    delta = 100;
+                }
+                correction = delta / last_delta;
+                last_run = this_run;
+                last_delta = delta;
+            }
+        }
+        return { delta: delta, correction: correction };
+    }
+
+    function run() {
+        const { delta, correction } = get_delta_correction();
+        Matter.Engine.update(engine, delta, correction);
+        tickCounter();
+        requestAnimationFrame(run);
+
+    }
+
+    requestAnimationFrame(run);
+
+
 
     // Define global variables:
     global.bodies = []; // List of physics 'bodies' in the world
@@ -49,10 +100,10 @@ function main() {
     global.world = engine.world;
     global.engine = engine;
     global.render = render;
-    global.runner = runner;
+    // global.runner = runner;
 
     // Set function to run every game tick
-    Matter.Events.on(runner, 'tick', tickCounter);
+    // Matter.Events.on(runner, 'tick', tickCounter);
 
     // Check for keypresses and store them
     window.addEventListener('keydown', e => keyMapper(e))
@@ -88,6 +139,9 @@ function main() {
 
     const myplayer = new Alf();
     myplayer.add();
+
+    const enemy1 = new PassiveEnemy({ x: 200, y: 200 });
+    enemy1.add();
 
     // const pipe1 = new Pipe();
     // pipe1.add();
