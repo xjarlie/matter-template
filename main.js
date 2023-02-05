@@ -29,7 +29,7 @@ function main() {
         engine: engine,
         options: {
             width: 1280,
-            height: 724,
+            height: 720,
             wireframes: false,
             background: '#021703'
         }
@@ -119,29 +119,48 @@ function main() {
     platform1.body.render.fillStyle = '#ff00f0';
     platform1.add();
 
-    // const trickPlatform = new Platform(600, 200, 200, 20);
-    // trickPlatform.group = 'trick';
-
-    // trickPlatform.tick = function() {
-    //     if (trickPlatform.body.position.x < 400) {
-    //         Matter.Body.setVelocity(trickPlatform.body, { x: 1, y: 0 })
-    //     } else {
-    //         Matter.Body.setVelocity(trickPlatform.body, { x: -1, y: 0 })
-    //     }
-    //     console.log(trickPlatform.body.position);
-    //     Matter.Body.setAngle(trickPlatform.body, 0);
-    // }
-    // trickPlatform.add();
-    // Matter.Body.setStatic(trickPlatform.body, false);
-
     const movingPlatform = new MovingPlatform(600, 300, 200, 20);
     movingPlatform.add();
+
+    const platform2 = new Platform(600, 150, 200, 20);
+    platform2.add();
 
     const myplayer = new Alf();
     myplayer.add();
 
-    const enemy1 = new PassiveEnemy({ x: 200, y: 200 });
+    const enemy1 = new PassiveEnemy([{ x: 370, y: 200 }, { x: 490, y: 200 }, { x: 630, y: 200 }]);
     enemy1.add();
+
+    const enemy2 = new PassiveEnemy([{ x: 520, y: 0 }, { x: 675, y: 0 }]);
+    Matter.Body.setPosition(enemy2.body, {x: 597, y: 76})
+    enemy2.pauseTicks = 30;
+    enemy2.speed = 1.5;
+    enemy2.add();
+
+    const mouse = Matter.MouseConstraint.create(engine);
+    console.log(mouse.constraint.pointA)
+
+    Matter.Events.on(mouse, "mousedown", () => {
+        console.log(mouse.constraint.pointA);
+    })
+
+    // Walls
+    const leftWall = new Platform(0, 360, 30, 730);
+    leftWall.group = 'wall';
+    leftWall.add();
+
+    const rightWall = new Platform(1280, 360, 30, 730);
+    rightWall.group = 'wall';
+    rightWall.add();
+
+    const topWall = new Platform(640, 0, 1280, 30);
+    topWall.group = 'wall';
+    topWall.add();
+
+    const bottomWall = new Platform(640, 720, 1280, 30);
+    bottomWall.add();
+
+
 
     // const pipe1 = new Pipe();
     // pipe1.add();
