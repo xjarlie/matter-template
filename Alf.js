@@ -33,7 +33,8 @@ class Alf extends Entity {
         this.lastTouchedGround = 0;
         this.lastFired = 0;
         this.fireDelay = 0;
-
+        this.fireForce = 0.1;
+        this.currentSprite = 'right';
     }
 
     tick() {
@@ -64,7 +65,7 @@ class Alf extends Entity {
 
             if (keyMap['ArrowUp'] === true) {
 
-                Matter.Body.applyForce(this.body, this.body.position, { x: 0, y: -0.08 })
+                Matter.Body.applyForce(this.body, this.body.position, { x: 0, y: -0.05 })
 
             }
 
@@ -87,7 +88,7 @@ class Alf extends Entity {
         if (keyMap[' '] === true) {
 
             if (ticks > this.lastFired + this.fireDelay) {
-                const bullet = new Bullet(this.body.position.x, this.body.position.y, 0.5 * this.facing, 0);
+                const bullet = new Bullet(this.body.position.x, this.body.position.y, this.fireForce * this.facing, 0);
                 bullet.add();
                 this.lastFired = ticks;
             }

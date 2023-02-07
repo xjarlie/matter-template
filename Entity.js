@@ -9,6 +9,7 @@ class Entity {
         this.group = 'default';
         this.key = crypto.randomUUID(); // Unique, randomised key
         this.static = false;
+        this.sprites = {};
     }
 
     add() {

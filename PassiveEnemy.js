@@ -34,7 +34,7 @@ class PassiveEnemy extends Entity {
 
     tick() {
 
-        Matter.Body.setAngle(this.body, 0);
+        //Matter.Body.setAngle(this.body, 0);
 
         const position = this.body.position;
         const target = this.points[this.target];

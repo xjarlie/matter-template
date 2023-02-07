@@ -4,7 +4,7 @@ import collisions from './collisions.js';
 import { global } from './lib/global.js';
 
 class MovingPlatform extends Entity {
-    constructor(posX, posY, sizeX, sizeY) {
+    constructor(posX, posY, sizeX, sizeY, anchorX, anchorY) {
         super();
 
         this.body = Matter.Bodies.rectangle(posX, posY, sizeX, sizeY, {
@@ -18,10 +18,22 @@ class MovingPlatform extends Entity {
             label: this.key,
             mass: 1000
         });
+
+        this.constraint = Matter.Constraint.create({
+            bodyA: this.body,
+            pointB: { x: anchorX, y: anchorY }
+        });
+
         this.static = false;
 
         this.group = 'platform'
 
+    }
+
+    add() {
+        super.add();
+
+        Matter.Composite.add(this.world, this.constraint);
     }
 
     tick() {
