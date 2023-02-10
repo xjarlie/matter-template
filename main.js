@@ -6,6 +6,7 @@ import Character from './Character.js';
 import Platform from './Platform.js';
 import Alf from './Alf.js';
 import MovingPlatform from './MovingPlatform.js';
+import PassiveEnemy from './PassiveEnemy.js';
 
 function main() {
 
@@ -64,9 +65,17 @@ function main() {
     const ground = new Platform(100, 600, 400, 30);
     ground.add();
 
+    const enemy1 = new PassiveEnemy(600, 400)
+    enemy1.add();
+
     const platform1 = new Platform(500, 500, 300, 30);
     platform1.body.render.fillStyle = '#ff00f0';
     platform1.add();
+
+    const mouseConstraint = Matter.MouseConstraint.create(engine);
+    Matter.Events.on(mouseConstraint, "mousedown", function() {
+        console.log(mouseConstraint.constraint.pointA)
+    });
 
     // const trickPlatform = new Platform(600, 200, 200, 20);
     // trickPlatform.group = 'trick';

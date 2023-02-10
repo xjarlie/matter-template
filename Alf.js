@@ -11,7 +11,7 @@ class Alf extends Entity {
         this.body = Matter.Bodies.rectangle(40, 60, 32, 32, {
             collisionFilter: {
                 category: collisions.character, // The collision category this entity belongs to
-                mask: collisions.ground // The collision categories this entity collides with
+                mask: collisions.ground | collisions.enemy // The collision categories this entity collides with
             },
             render: {
                 sprite: {
@@ -21,7 +21,8 @@ class Alf extends Entity {
                 }
             },
             label: this.key,
-            density: 0.01,
+            mass: 1,
+            friction: 0
         })
 
     }
@@ -30,13 +31,13 @@ class Alf extends Entity {
 
         if (keyMap['ArrowRight'] === true) {
 
-            Matter.Body.applyForce(this.body, this.body.position, { x: 0.01, y: 0 })
+            Matter.Body.applyForce(this.body, this.body.position, { x: 0.001, y: 0 })
 
         }
 
         if (keyMap['ArrowLeft'] === true) {
 
-            Matter.Body.applyForce(this.body, this.body.position, { x: -0.01, y: 0 })
+            Matter.Body.applyForce(this.body, this.body.position, { x: -0.001, y: 0 })
         }
 
     
@@ -44,10 +45,16 @@ class Alf extends Entity {
 
             if (keyMap['ArrowUp'] === true) {
 
-                Matter.Body.applyForce(this.body, this.body.position, { x: 0, y: -0.5 })
+                Matter.Body.applyForce(this.body, this.body.position, { x: 0, y: -0.05 })
     
             }
 
+        }
+
+        if (Matter.Query.collides(this.body, getByGroup('enemy').bodies).length > 0) {
+            
+            Matter.Body.setPosition(this.body, { x: 40, y: 60 });
+            
         }
 
     }

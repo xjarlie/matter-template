@@ -10,7 +10,7 @@ class MovingPlatform extends Entity {
         this.body = Matter.Bodies.rectangle(posX, posY, sizeX, sizeY, {
             collisionFilter: {
                 category: collisions.ground, // The collision category this entity belongs to
-                mask: collisions.character // The collision categories this entity collides with
+                mask: collisions.character | collisions.enemy // The collision categories this entity collides with
             },
             render: {
                 fillStyle: 'green'
