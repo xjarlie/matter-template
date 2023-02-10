@@ -3,12 +3,13 @@ import Entity from "./Entity.js";
 import { global } from "./lib/global.js";
 import collisions from "./collisions.js";
 import getByGroup from './lib/getByGroup.js';
+import getByKey from './lib/getByKey.js';
 
 class Bullet extends Entity {
     constructor(posX, posY, vX, vY) {
         super()
 
-        this.body = Matter.Bodies.circle(posX, posY, 10, {
+        this.body = Matter.Bodies.rectangle(posX, posY, 15, 10, {
             collisionFilter: {
                 category: collisions.bullet,
                 mask: collisions.enemy
@@ -37,16 +38,27 @@ class Bullet extends Entity {
 
         const enemiesColliding = Matter.Query.collides(this.body, getByGroup('enemy').bodies);
 
-        if (enemiesColliding.length > 0) {
+        for (const i in enemiesColliding) {
             console.log('hit');
-            this.remove();
+            const entityA = getByKey(enemiesColliding[i].bodyA.label);
+            const entityB = getByKey(enemiesColliding[i].bodyB.label);
+
+            entityA.remove();
+            entityB.remove();
+
+            const player = getByGroup('character').entities[0];
+            player.score++;
+
+            console.log('hit')
         }
+
 
         if (this.body.position.x > 1280 || this.body.position.x < 0 || this.body.position.y < 0 || this.body.position.y > 720) {
             this.remove();
         }
-    }
 
+        Matter.Body.applyForce(this.body, this.body.position, { x: 0, y: -0.001 })
+    }
 
 }
 

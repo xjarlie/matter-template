@@ -7,6 +7,7 @@ import Platform from './Platform.js';
 import Alf from './Alf.js';
 import MovingPlatform from './MovingPlatform.js';
 import PassiveEnemy from './PassiveEnemy.js';
+import Collectible from './Collectible.js';
 
 function main() {
 
@@ -119,11 +120,14 @@ function main() {
     platform1.body.render.fillStyle = '#ff00f0';
     platform1.add();
 
-    const movingPlatform = new MovingPlatform(600, 300, 200, 20, 600, 200);
+    const movingPlatform = new MovingPlatform(600, 300, 200, 20, 600, 300, 0);
     movingPlatform.add();
 
     const platform2 = new Platform(600, 150, 200, 20);
     platform2.add();
+
+    const collect1 = new Collectible(495, 455, 5);
+    collect1.add();
 
     const myplayer = new Alf();
     myplayer.add();
@@ -137,9 +141,9 @@ function main() {
     enemy2.speed = 1.5;
     enemy2.add();
 
-    const mouse = Matter.MouseConstraint.create(engine);
-    console.log(mouse.constraint.pointA)
-
+    const mouse = Matter.MouseConstraint.create(engine, {
+        element: document.body
+    });
     Matter.Events.on(mouse, "mousedown", () => {
         console.log(mouse.constraint.pointA);
     })
@@ -159,15 +163,6 @@ function main() {
 
     const bottomWall = new Platform(640, 720, 1280, 30);
     bottomWall.add();
-
-
-
-    // const pipe1 = new Pipe();
-    // pipe1.add();
-
-    // const pipe2 = new Pipe();
-    // Matter.Body.setPosition(pipe2.body, { x: pipe2.body.position.x, y: 600 })
-    // pipe2.add();
 
 }
 window.onload = main;

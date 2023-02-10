@@ -24,7 +24,6 @@ class PassiveEnemy extends Entity {
 
         this.points = points;
 
-        this.facing = 'right';
         this.target = 0;
         this.speed = 1;
         this.group = 'enemy';
@@ -33,7 +32,7 @@ class PassiveEnemy extends Entity {
     }
 
     tick() {
-
+        
         //Matter.Body.setAngle(this.body, 0);
 
         const position = this.body.position;
@@ -59,9 +58,6 @@ class PassiveEnemy extends Entity {
         if (Matter.Query.collides(this.body, getByGroup('bullet').bodies).length > 0) {
             //this.remove();
         }
-
-
-        //Matter.Body.applyForce(this.body, this.body.position, { x: 0, y: -0.001 })
 
     }
 }

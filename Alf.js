@@ -29,11 +29,12 @@ class Alf extends Entity {
 
         this.group = 'character';
 
+        this.score = 0;
         this.facing = 1;
         this.lastTouchedGround = 0;
         this.lastFired = 0;
-        this.fireDelay = 0;
-        this.fireForce = 0.1;
+        this.fireDelay = 50;
+        this.fireForce = 0.05;
         this.currentSprite = 'right';
     }
 
@@ -95,6 +96,8 @@ class Alf extends Entity {
 
 
         }
+
+        console.log(this.score);
 
     }
 }
