@@ -35,12 +35,16 @@ class PassiveEnemy extends Entity {
 
         if (target /*&& ticks > (this.paused + this.pauseTicks)*/) {
             const xDirectionToTarget = -Math.sign(Math.round(position.x) - Math.round(target.x))
-            console.log(target);
             Matter.Body.setVelocity(this.body, { x: xDirectionToTarget * this.speed, y: this.body.velocity.y })
 
-            console.log(target.x, Math.round(position.x))
+            //console.log(target.x, Math.round(position.x))
 
-            if (Math.ceil(position.x) == Math.floor(target.x) || Math.floor(position.x) == Math.ceil(target.x)) {
+            const distanceToTarget = Math.abs(Math.round(position.x) - Math.round(target.x));
+
+            const closeEnough = distanceToTarget < this.speed;
+            const atTarget = Math.round(position.x) === Math.round(target.x);
+
+            if (closeEnough) {
 
                 this.currentTarget = this.currentTarget + 1
                 
