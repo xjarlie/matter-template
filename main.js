@@ -25,10 +25,10 @@ function main() {
         element: document.body,
         engine: engine,
         options: {
-            width: 1000,
-            height: 700,
+            width: 1280,
+            height: 720,
             wireframes: false,
-            background: 'black'
+            background: '#021703'
         }
     });
 
@@ -104,6 +104,23 @@ function main() {
     // const pipe2 = new Pipe();
     // Matter.Body.setPosition(pipe2.body, { x: pipe2.body.position.x, y: 600 })
     // pipe2.add();
+
+    // Walls
+    const leftWall = new Platform(0, 360, 30, 730);
+    leftWall.group = 'wall';
+    leftWall.add();
+
+    const rightWall = new Platform(1280, 360, 30, 730);
+    rightWall.group = 'wall';
+    rightWall.add();
+
+    const topWall = new Platform(640, 0, 1280, 30);
+    topWall.group = 'wall';
+    topWall.add();
+
+    const bottomWall = new Platform(640, 720, 1280, 30);
+    bottomWall.group = 'wall platform'
+    bottomWall.add();
 
 }
 window.onload = main;

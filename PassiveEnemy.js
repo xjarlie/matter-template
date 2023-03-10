@@ -23,7 +23,7 @@ class PassiveEnemy extends Entity {
         this.positions = positions
         this.group = 'enemy'
         this.currentTarget = 0
-        this.speed = 3
+        this.speed = 10
     }
 
     tick() {
@@ -31,18 +31,15 @@ class PassiveEnemy extends Entity {
         const position = this.body.position
         const target = this.positions[this.currentTarget]
 
-        // console.log(ticks, this.paused + this.pauseTicks)
-
-        if (target /*&& ticks > (this.paused + this.pauseTicks)*/) {
+        if (target) {
             const xDirectionToTarget = -Math.sign(Math.round(position.x) - Math.round(target.x))
             Matter.Body.setVelocity(this.body, { x: xDirectionToTarget * this.speed, y: this.body.velocity.y })
 
-            //console.log(target.x, Math.round(position.x))
 
             const distanceToTarget = Math.abs(Math.round(position.x) - Math.round(target.x));
 
-            const closeEnough = distanceToTarget < this.speed;
-            const atTarget = Math.round(position.x) === Math.round(target.x);
+            const closeEnough = (distanceToTarget / 2) < this.speed
+            const atTarget = Math.round(position.x) === Math.round(target.x)
 
             if (closeEnough) {
 
