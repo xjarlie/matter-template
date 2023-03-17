@@ -53,6 +53,13 @@ class PassiveEnemy extends Entity {
             }
         }
 
+        if (Matter.Query.collides(this.body, getByGroup('bullet').bodies).length > 0) {
+            const xPosition = Math.random() * 1280
+            const yPosition = Math.random() * 720
+            console.log(xPosition, yPosition);
+            Matter.Body.setPosition(this.body, {x: xPosition, y: yPosition})
+        }
+
         // const position = this.body.position;
         // const target = this.positions[this.currentTarget];
 

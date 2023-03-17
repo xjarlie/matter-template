@@ -1,7 +1,7 @@
 import './lib/matter.js'
 import Entity from "./Entity.js"
 import collisions from './collisions.js'
-import getByGroup from './lib/getByGroup.js'
+import getByGroup from './lib/getByGroup.js';
 import { ticks } from './lib/tickCounter.js'
 
 class Bullet extends Entity {
@@ -28,6 +28,10 @@ class Bullet extends Entity {
     tick() {
 
         Matter.Body.setVelocity(this.body, this.velocity);
+
+        if (Matter.Query.collides(this.body, getByGroup('platform').bodies).length > 0) {
+            this.remove()
+        }
 
     }
 }

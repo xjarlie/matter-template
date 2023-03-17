@@ -4,6 +4,7 @@ import { keyMap } from "./lib/keyMap.js";
 import collisions from './collisions.js';
 import getByGroup from './lib/getByGroup.js';
 import Bullet from './Bullet.js'
+import { ticks } from './lib/tickCounter.js';
 
 class Alf extends Entity {
     constructor() {
@@ -26,25 +27,34 @@ class Alf extends Entity {
             friction: 0
         })
 
+        this.delay = 10
+        this.lastFired = 0
+
+        this.facing = 1
+
     }
 
     tick() {
 
         if (keyMap['ArrowRight'] === true) {
-
+            this.facing = 1
             Matter.Body.applyForce(this.body, this.body.position, { x: 0.001, y: 0 })
 
         }
 
         if (keyMap['ArrowLeft'] === true) {
-
+            this.facing = -1
             Matter.Body.applyForce(this.body, this.body.position, { x: -0.001, y: 0 })
         }
 
         if (keyMap[' '] === true) {
-            console.log('wasd')
-            const bullet = new Bullet(this.body.position.x, this.body.position.y, 1, 0)
-            bullet.add();
+            
+            if (ticks > this.lastFired + this.delay) {
+                const bullet = new Bullet(this.body.position.x, this.body.position.y, (5 * this.facing), 0)
+                bullet.add()
+                this.lastFired = ticks
+            }
+            
 
         }
 

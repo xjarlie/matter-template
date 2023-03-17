@@ -22,7 +22,7 @@ class Entity {
     }
 
     remove() {
-        global.entities = window.entities.filter(e => e !== this);
+        global.entities = global.entities.filter(e => e !== this);
         Matter.Composite.remove(this.world, this.body);
     }
 
