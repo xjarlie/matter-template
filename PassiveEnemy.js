@@ -35,7 +35,6 @@ class PassiveEnemy extends Entity {
             const xDirectionToTarget = -Math.sign(Math.round(position.x) - Math.round(target.x))
             Matter.Body.setVelocity(this.body, { x: xDirectionToTarget * this.speed, y: this.body.velocity.y })
 
-
             const distanceToTarget = Math.abs(Math.round(position.x) - Math.round(target.x));
 
             const closeEnough = (distanceToTarget / 2) < this.speed
@@ -77,8 +76,6 @@ class PassiveEnemy extends Entity {
         //         }
         //         this.paused = ticks;
         //     }
-    
-
         // }
 
 

@@ -7,6 +7,7 @@ import Platform from './Platform.js';
 import Alf from './Alf.js';
 import MovingPlatform from './MovingPlatform.js';
 import PassiveEnemy from './PassiveEnemy.js';
+import Pickup from './Pickup.js';
 
 function main() {
 
@@ -64,6 +65,9 @@ function main() {
 
     const ground = new Platform(100, 600, 400, 30);
     ground.add();
+
+    const pickup = new Pickup(150, 550)
+    pickup.add()
 
     const enemy1 = new PassiveEnemy(600, 400, [{x: 385, y: 0}, {x: 600, y: 0}])
     enemy1.add();

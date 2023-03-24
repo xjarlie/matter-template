@@ -17,7 +17,7 @@ class Bullet extends Entity {
                 fillStyle: 'blue'
             },
             label: this.key,
-            density: 0.01
+            mass: 1
         })
         this.group = 'bullet'
 

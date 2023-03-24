@@ -5,6 +5,7 @@ import collisions from './collisions.js';
 import getByGroup from './lib/getByGroup.js';
 import Bullet from './Bullet.js'
 import { ticks } from './lib/tickCounter.js';
+import getByKey from './lib/getByKey.js';
 
 class Alf extends Entity {
     constructor() {
@@ -27,8 +28,10 @@ class Alf extends Entity {
             friction: 0
         })
 
+        this.group = 'player'
         this.delay = 10
         this.lastFired = 0
+        this.ammo = 5
 
         this.facing = 1
 
@@ -50,15 +53,21 @@ class Alf extends Entity {
         if (keyMap[' '] === true) {
             
             if (ticks > this.lastFired + this.delay) {
-                const bullet = new Bullet(this.body.position.x, this.body.position.y, (5 * this.facing), 0)
-                bullet.add()
-                this.lastFired = ticks
+
+                if (this.ammo > 0) {
+
+                    const bullet = new Bullet(this.body.position.x, this.body.position.y, (5 * this.facing), 0)
+                    bullet.add()
+                    this.lastFired = ticks
+                    this.ammo = this.ammo - 1
+
+                }
+                
             }
-            
 
         }
 
-    
+
         if (Matter.Query.collides(this.body, getByGroup('platform').bodies).length > 0) {
 
             if (keyMap['ArrowUp'] === true) {
@@ -70,11 +79,19 @@ class Alf extends Entity {
         }
 
         if (Matter.Query.collides(this.body, getByGroup('enemy').bodies).length > 0) {
-            
+
             Matter.Body.setPosition(this.body, { x: 40, y: 60 });
-            
+ 
         }
 
+        if (Matter.Query.collides(this.body, getByGroup('pickup').bodies).length > 0) {
+            console.log('here')
+            this.ammo = this.ammo + 5
+
+            const id = Matter.Query.collides(this.body, getByGroup('pickup').bodies)[0].bodyA.label;
+            getByKey(id).remove()
+
+        }
     }
 }
 
